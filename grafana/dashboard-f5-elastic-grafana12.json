@@ -779,6 +779,70 @@
           ],
           "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
           "metrics": [ { "id": "1", "type": "count" } ],
+          "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:[400 TO *]",
+          "refId": "B",
+          "timeField": "timestamp"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": { "mode": "outerTabular", "byField": "Term" }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "renameByName": {
+              "Count": "Total",
+              "Count 1": "Erros"
+            },
+            "indexByName": {
+              "Term": 0,
+              "Total": 1,
+              "Erros": 2
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "binary",
+            "fields": { "A": "Erros", "B": "Total" },
+            "operation": "divide",
+            "alias": "%Erro",
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "unary",
+            "fields": { "A": "%Erro" },
+            "operation": "multiply",
+            "value": 100,
+            "alias": "%Erro",
+            "replaceFields": true
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "renameByName": { "Term": "Endpoint" },
+            "indexByName": {
+              "Endpoint": 0,
+              "Total": 1,
+              "Erros": 2,
+              "%Erro": 3
+            }
+          }
+        }
+      ],
+      "title": "Taxa de erro por endpoint (Total / Erros / %Erro)",
+      "transparent": true,
+      "type": "table"
+    },
     {
       "collapsed": false,
       "datasource": null,
@@ -864,60 +928,6 @@
       "title": "4xx vs 5xx (count)",
       "transparent": true,
       "type": "piechart"
-    },
-
-          "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:[400 TO *]",
-          "refId": "B",
-          "timeField": "timestamp"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "joinByField",
-          "options": { "mode": "outerTabular", "byField": "Term" }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "renameByName": {
-              "Count": "Total",
-              "Count 1": "Erros"
-            },
-            "indexByName": {
-              "Term": 0,
-              "Total": 1,
-              "Erros": 2
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "mode": "binary",
-            "fields": { "A": "Erros", "B": "Total" },
-            "operation": "divide",
-            "alias": "%Erro",
-            "replaceFields": false
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "renameByName": { "Term": "Endpoint" },
-            "indexByName": {
-              "Endpoint": 0,
-              "Total": 1,
-              "Erros": 2,
-              "%Erro": 3
-            }
-          }
-        }
-      ],
-      "title": "Taxa de erro por endpoint (Total / Erros / %Erro)",
-      "transparent": true,
-      "type": "table"
     },
     {
       "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
