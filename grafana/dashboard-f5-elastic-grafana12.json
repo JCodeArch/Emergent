@@ -743,9 +743,18 @@
     },
     {
       "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "description": "Tabela consolidada por endpoint: Total, Erros e %Erro (join + cálculo no Grafana).",
       "fieldConfig": {
         "defaults": { "color": { "mode": "palette-classic" }, "mappings": [], "unit": "short" },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "%Erro" },
+            "properties": [
+              { "id": "unit", "value": "percentunit" },
+              { "id": "decimals", "value": 2 }
+            ]
+          }
+        ]
       },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 39 },
       "id": 15,
@@ -759,7 +768,7 @@
           ],
           "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
           "metrics": [ { "id": "1", "type": "count" } ],
-          "query": "f5.vhost.keyword:$vhost",
+          "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint",
           "refId": "A",
           "timeField": "timestamp"
         },
@@ -770,12 +779,56 @@
           ],
           "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
           "metrics": [ { "id": "1", "type": "count" } ],
-          "query": "f5.vhost.keyword:$vhost AND f5.status:[400 TO *]",
+          "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:[400 TO *]",
           "refId": "B",
           "timeField": "timestamp"
         }
       ],
-      "title": "Taxa de erro por endpoint (base para join)",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": { "mode": "outerTabular", "byField": "Term" }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "renameByName": {
+              "Count": "Total",
+              "Count 1": "Erros"
+            },
+            "indexByName": {
+              "Term": 0,
+              "Total": 1,
+              "Erros": 2
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "binary",
+            "fields": { "A": "Erros", "B": "Total" },
+            "operation": "divide",
+            "alias": "%Erro",
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "renameByName": { "Term": "Endpoint" },
+            "indexByName": {
+              "Endpoint": 0,
+              "Total": 1,
+              "Erros": 2,
+              "%Erro": 3
+            }
+          }
+        }
+      ],
+      "title": "Taxa de erro por endpoint (Total / Erros / %Erro)",
       "transparent": true,
       "type": "table"
     },
