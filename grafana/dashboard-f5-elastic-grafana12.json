@@ -779,6 +779,93 @@
           ],
           "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
           "metrics": [ { "id": "1", "type": "count" } ],
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 47 },
+      "id": 310,
+      "panels": [],
+      "title": "Incidentes — Detalhamento (Status Codes)",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "description": "Top status codes (agregado no período).",
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "mappings": [], "unit": "short" },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 48 },
+      "id": 18,
+      "options": { "showHeader": true },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "alias": "Status",
+          "bucketAggs": [
+            {
+              "field": "f5.status",
+              "id": "2",
+              "settings": { "size": "15", "order": "desc", "orderBy": "1" },
+              "type": "terms"
+            }
+          ],
+          "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+          "metrics": [ { "id": "1", "type": "count" } ],
+          "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint",
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Top status codes (count)",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "description": "4xx vs 5xx no período selecionado.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 48 },
+      "id": 19,
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "alias": "4xx",
+          "bucketAggs": [],
+          "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+          "metrics": [ { "id": "1", "type": "count" } ],
+          "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:[400 TO 499]",
+          "refId": "A",
+          "timeField": "timestamp"
+        },
+        {
+          "alias": "5xx",
+          "bucketAggs": [],
+          "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+          "metrics": [ { "id": "1", "type": "count" } ],
+          "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:[500 TO 599]",
+          "refId": "B",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "4xx vs 5xx (count)",
+      "transparent": true,
+      "type": "piechart"
+    },
+
           "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:[400 TO *]",
           "refId": "B",
           "timeField": "timestamp"
