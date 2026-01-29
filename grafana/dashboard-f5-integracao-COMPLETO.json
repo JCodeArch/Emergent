@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -14,29 +17,32 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
+  "graphTooltip": 0,
   "id": null,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
       "id": 100,
       "panels": [],
-      "title": "📊 Visão Geral (KPIs)",
+      "title": "Visão Geral (KPIs)",
       "type": "row"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Total de requisições no período selecionado.",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "rgb(45, 138, 216)", "value": null }]
+            "steps": [
+              { "color": "rgb(45, 138, 216)" }
+            ]
           },
           "unit": "short",
           "decimals": 0
@@ -50,10 +56,14 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "horizontal",
-        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "/^Count$/",
+          "values": true
+        },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "Total Requisições",
@@ -61,13 +71,26 @@
             {
               "field": "@timestamp",
               "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "timeZone": "utc",
+                "trimEdges": "0"
+              },
               "type": "date_histogram"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -77,15 +100,19 @@
       "type": "stat"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Requisições por minuto (média no período).",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "rgb(45, 138, 216)", "value": null }]
+            "steps": [
+              { "color": "rgb(45, 138, 216)" }
+            ]
           },
           "unit": "short",
           "decimals": 0
@@ -99,10 +126,14 @@
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "horizontal",
-        "reduceOptions": { "calcs": ["mean"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": ["mean"],
+          "fields": "/^Count$/",
+          "values": true
+        },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "Throughput",
@@ -110,24 +141,39 @@
             {
               "field": "@timestamp",
               "id": "2",
-              "settings": { "interval": "5m", "min_doc_count": "0" },
+              "settings": {
+                "interval": "1m",
+                "min_doc_count": "0",
+                "timeZone": "utc",
+                "trimEdges": "0"
+              },
               "type": "date_histogram"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet",
           "refId": "A",
           "timeField": "@timestamp"
         }
       ],
-      "title": "Throughput (req/5min)",
+      "title": "Throughput (req/min)",
       "transparent": true,
       "type": "stat"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Percentil 95 de latência (ms) no período.",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -135,7 +181,7 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
+              { "color": "green" },
               { "color": "rgb(216, 123, 0)", "value": 2000 },
               { "color": "red", "value": 5000 }
             ]
@@ -152,10 +198,14 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "horizontal",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "/^p95$/",
+          "values": true
+        },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "Latência p95",
@@ -163,20 +213,30 @@
             {
               "field": "@timestamp",
               "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "timeZone": "utc",
+                "trimEdges": "0"
+              },
               "type": "date_histogram"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
           "metrics": [
             {
               "field": "f5.request_elapsed_ms",
               "id": "1",
-              "settings": { "percents": ["95"] },
+              "settings": {
+                "percents": ["95"]
+              },
               "type": "percentiles"
             }
           ],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
+          "query": "f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -186,8 +246,10 @@
       "type": "stat"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Total de requisições com erro (status >= 400).",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -195,7 +257,7 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
+              { "color": "green" },
               { "color": "rgb(216, 123, 0)", "value": 100 },
               { "color": "red", "value": 1000 }
             ]
@@ -212,10 +274,14 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "horizontal",
-        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "/^Count$/",
+          "values": true
+        },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "Total Erros",
@@ -223,13 +289,26 @@
             {
               "field": "@timestamp",
               "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "timeZone": "utc",
+                "trimEdges": "0"
+              },
               "type": "date_histogram"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.status:>=400",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.status:>=400",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -239,320 +318,101 @@
       "type": "stat"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Disponibilidade = (sucesso / total) * 100",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "rgb(216, 123, 0)", "value": 95 },
-              { "color": "green", "value": 99 }
-            ]
-          },
-          "unit": "percent",
-          "decimals": 2,
-          "min": 0,
-          "max": 100
-        },
-        "overrides": []
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
       },
-      "gridPos": { "h": 6, "w": 4, "x": 16, "y": 1 },
-      "id": 4,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "12.0.0",
-      "targets": [
-        {
-          "alias": "Total",
-          "bucketAggs": [
-            {
-              "field": "@timestamp",
-              "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "hide": true
-        },
-        {
-          "alias": "Sucesso",
-          "bucketAggs": [
-            {
-              "field": "@timestamp",
-              "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.status:<400",
-          "refId": "B",
-          "timeField": "@timestamp",
-          "hide": true
-        },
-        {
-          "datasource": { "type": "__expr__", "uid": "__expr__" },
-          "expression": "($B / $A) * 100",
-          "refId": "C",
-          "type": "math"
-        }
-      ],
-      "title": "Disponibilidade (%)",
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Taxa de Erro = (erros / total) * 100",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "rgb(216, 123, 0)", "value": 1 },
-              { "color": "red", "value": 5 }
-            ]
-          },
-          "unit": "percent",
-          "decimals": 2,
-          "min": 0,
-          "max": 100
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 6, "w": 4, "x": 20, "y": 1 },
-      "id": 3,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "12.0.0",
-      "targets": [
-        {
-          "alias": "Total",
-          "bucketAggs": [
-            {
-              "field": "@timestamp",
-              "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "hide": true
-        },
-        {
-          "alias": "Erros",
-          "bucketAggs": [
-            {
-              "field": "@timestamp",
-              "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.status:>=400",
-          "refId": "B",
-          "timeField": "@timestamp",
-          "hide": true
-        },
-        {
-          "datasource": { "type": "__expr__", "uid": "__expr__" },
-          "expression": "($B / $A) * 100",
-          "refId": "C",
-          "type": "math"
-        }
-      ],
-      "title": "Taxa de Erro (%)",
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "SLA = (requests <= 2s / total) * 100",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "rgb(216, 123, 0)", "value": 90 },
-              { "color": "green", "value": 98 }
-            ]
-          },
-          "unit": "percent",
-          "decimals": 2,
-          "min": 0,
-          "max": 100
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 6, "w": 4, "x": 16, "y": 7 },
-      "id": 6,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "12.0.0",
-      "targets": [
-        {
-          "alias": "Total",
-          "bucketAggs": [
-            {
-              "field": "@timestamp",
-              "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
-          "refId": "A",
-          "timeField": "@timestamp",
-          "hide": true
-        },
-        {
-          "alias": "Dentro SLA",
-          "bucketAggs": [
-            {
-              "field": "@timestamp",
-              "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.request_elapsed_ms:[0 TO 2000]",
-          "refId": "B",
-          "timeField": "@timestamp",
-          "hide": true
-        },
-        {
-          "datasource": { "type": "__expr__", "uid": "__expr__" },
-          "expression": "($B / $A) * 100",
-          "refId": "C",
-          "type": "math"
-        }
-      ],
-      "title": "SLA Compliance (%)",
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Distribuição de erros 4xx vs 5xx.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
           "mappings": [],
-          "unit": "short",
-          "decimals": 0
+          "unit": "short"
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "4xx (Cliente)" },
+            "matcher": { "id": "byName", "options": "4xx" },
             "properties": [
               { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" } }
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "5xx (Servidor)" },
+            "matcher": { "id": "byName", "options": "5xx" },
             "properties": [
               { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" } }
             ]
           }
         ]
       },
-      "gridPos": { "h": 6, "w": 4, "x": 20, "y": 7 },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 1 },
       "id": 19,
       "options": {
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "displayLabels": ["percent", "value"],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": ["value", "percent"]
+        },
         "pieType": "donut",
-        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false },
-        "tooltip": { "mode": "single" },
-        "displayLabels": ["percent"]
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "/^Count$/",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
-          "alias": "4xx (Cliente)",
+          "alias": "{{f5.status_str}}",
           "bucketAggs": [
             {
-              "field": "@timestamp",
+              "field": "f5.status_str",
               "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_count",
+                "size": "10"
+              },
+              "type": "terms"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.status:[400 TO 499]",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.status:>=400",
           "refId": "A",
-          "timeField": "@timestamp"
-        },
-        {
-          "alias": "5xx (Servidor)",
-          "bucketAggs": [
-            {
-              "field": "@timestamp",
-              "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.status:>=500",
-          "refId": "B",
           "timeField": "@timestamp"
         }
       ],
-      "title": "Erros 4xx vs 5xx",
+      "title": "Distribuição de Erros",
       "transparent": true,
       "type": "piechart"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -560,20 +420,37 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 25,
             "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
             "lineInterpolation": "smooth",
             "lineWidth": 2,
-            "pointSize": 4,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
             "showPoints": "never",
             "spanNulls": true,
             "stacking": { "group": "A", "mode": "none" },
             "thresholdsStyle": { "mode": "off" }
           },
           "mappings": [],
-          "unit": "short",
-          "decimals": 0
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green" },
+              { "color": "red", "value": 80 }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": [
           {
@@ -587,10 +464,19 @@
       "gridPos": { "h": 8, "w": 16, "x": 0, "y": 5 },
       "id": 7,
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "calcs": ["sum", "mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "Requisições",
@@ -598,23 +484,117 @@
             {
               "field": "@timestamp",
               "id": "2",
-              "settings": { "interval": "5m", "min_doc_count": "0" },
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "timeZone": "utc",
+                "trimEdges": "0"
+              },
               "type": "date_histogram"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet",
           "refId": "A",
           "timeField": "@timestamp"
         }
       ],
-      "title": "Volumetria (Requisições/5min)",
+      "title": "Volumetria (Requisições)",
       "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 9 },
+      "id": 18,
+      "options": {
+        "displayLabels": ["percent", "value"],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": ["value", "percent"]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "/^Count$/",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.0+security-01",
+      "targets": [
+        {
+          "alias": "{{f5.status}}",
+          "bucketAggs": [
+            {
+              "field": "f5.status",
+              "id": "2",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_count",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Top Status Codes",
+      "transparent": true,
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -624,13 +604,17 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Endpoint" },
-            "properties": [{ "id": "custom.width", "value": 400 }]
+            "matcher": { "id": "byName", "options": "f5.url.keyword" },
+            "properties": [
+              { "id": "custom.width", "value": 400 },
+              { "id": "displayName", "value": "Endpoint" }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Total Requisições" },
+            "matcher": { "id": "byName", "options": "Count" },
             "properties": [
               { "id": "custom.width", "value": 140 },
+              { "id": "displayName", "value": "Total Requisições" },
               { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" } }
             ]
           }
@@ -640,10 +624,10 @@
       "id": 8,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Total Requisições", "desc": true }],
+        "sortBy": [{ "displayName": "Count", "desc": true }],
         "footer": { "show": false }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "",
@@ -651,27 +635,28 @@
             {
               "field": "f5.url.keyword",
               "id": "2",
-              "settings": { "size": "10", "order": "desc", "orderBy": "_count" },
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_count",
+                "size": "10"
+              },
               "type": "terms"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
           "refId": "A",
           "timeField": "@timestamp"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true },
-            "renameByName": {
-              "f5.url.keyword": "Endpoint",
-              "Count": "Total Requisições"
-            }
-          }
         }
       ],
       "title": "Top 10 APIs (por volume)",
@@ -683,25 +668,53 @@
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 21 },
       "id": 200,
       "panels": [],
-      "title": "⚡ Performance",
+      "title": "Performance",
       "type": "row"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": { "mode": "thresholds" },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 15,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
             "lineInterpolation": "smooth",
             "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
             "showPoints": "never",
-            "spanNulls": true
+            "spanNulls": true,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
           },
           "mappings": [],
-          "unit": "ms",
-          "decimals": 0
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green" },
+              { "color": "rgb(216, 123, 0)", "value": 2000 },
+              { "color": "red", "value": 5000 }
+            ]
+          },
+          "unit": "ms"
         },
         "overrides": [
           {
@@ -715,10 +728,19 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
       "id": 9,
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "calcs": ["lastNotNull", "min", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "p95",
@@ -726,20 +748,30 @@
             {
               "field": "@timestamp",
               "id": "2",
-              "settings": { "interval": "5m", "min_doc_count": "0" },
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "timeZone": "utc",
+                "trimEdges": "0"
+              },
               "type": "date_histogram"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
           "metrics": [
             {
               "field": "f5.request_elapsed_ms",
               "id": "1",
-              "settings": { "percents": ["95"] },
+              "settings": {
+                "percents": ["95"]
+              },
               "type": "percentiles"
             }
           ],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
+          "query": "f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -749,8 +781,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Top 10 endpoints com maior latência p95.",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -760,21 +794,18 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Endpoint" },
-            "properties": [{ "id": "custom.width", "value": 400 }]
+            "matcher": { "id": "byName", "options": "f5.url.keyword" },
+            "properties": [
+              { "id": "custom.width", "value": 400 },
+              { "id": "displayName", "value": "Endpoint" }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Latência p95 (ms)" },
+            "matcher": { "id": "byName", "options": "p95" },
             "properties": [
               { "id": "custom.width", "value": 150 },
-              { "id": "thresholds", "value": {
-                "mode": "absolute",
-                "steps": [
-                  { "color": "green", "value": null },
-                  { "color": "rgb(216, 123, 0)", "value": 2000 },
-                  { "color": "red", "value": 5000 }
-                ]
-              }},
+              { "id": "displayName", "value": "Latência p95 (ms)" },
+              { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" } },
               { "id": "custom.cellOptions", "value": { "type": "color-background" } }
             ]
           }
@@ -784,10 +815,10 @@
       "id": 10,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Latência p95 (ms)", "desc": true }],
+        "sortBy": [{ "displayName": "p95", "desc": true }],
         "footer": { "show": false }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "",
@@ -795,59 +826,63 @@
             {
               "field": "f5.url.keyword",
               "id": "2",
-              "settings": { "size": "10", "order": "desc", "orderBy": "1" },
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "1",
+                "size": "10"
+              },
               "type": "terms"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
           "metrics": [
             {
               "field": "f5.request_elapsed_ms",
               "id": "1",
-              "settings": { "percents": ["95"] },
+              "settings": {
+                "percents": ["95"]
+              },
               "type": "percentiles"
             }
           ],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
           "refId": "A",
           "timeField": "@timestamp"
         }
       ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true },
-            "renameByName": {
-              "f5.url.keyword": "Endpoint",
-              "p95": "Latência p95 (ms)"
-            }
-          }
-        }
-      ],
-      "title": "Top 10 Endpoints Mais Lentos",
+      "title": "Top 10 Endpoints Mais Lentos (p95)",
       "transparent": true,
       "type": "table"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Endpoints com maior tamanho de resposta.",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
           "mappings": [],
-          "unit": "bytes",
+          "unit": "decbytes",
           "decimals": 0
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Endpoint" },
-            "properties": [{ "id": "custom.width", "value": 400 }]
+            "matcher": { "id": "byName", "options": "f5.url.keyword" },
+            "properties": [
+              { "id": "custom.width", "value": 400 },
+              { "id": "displayName", "value": "Endpoint" }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Tamanho Máx (bytes)" },
+            "matcher": { "id": "byName", "options": "Max" },
             "properties": [
-              { "id": "custom.width", "value": 160 },
+              { "id": "custom.width", "value": 180 },
+              { "id": "displayName", "value": "Tamanho Máx (bytes)" },
               { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" } }
             ]
           }
@@ -857,10 +892,10 @@
       "id": 11,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Tamanho Máx (bytes)", "desc": true }],
+        "sortBy": [{ "displayName": "Max", "desc": true }],
         "footer": { "show": false }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "",
@@ -868,27 +903,29 @@
             {
               "field": "f5.url.keyword",
               "id": "2",
-              "settings": { "size": "10", "order": "desc", "orderBy": "1" },
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "1",
+                "size": "10"
+              },
               "type": "terms"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "field": "f5.response_length", "id": "1", "type": "max" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "field": "f5.response_length",
+              "id": "1",
+              "type": "max"
+            }
+          ],
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
           "refId": "A",
           "timeField": "@timestamp"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true },
-            "renameByName": {
-              "f5.url.keyword": "Endpoint",
-              "Max": "Tamanho Máx (bytes)"
-            }
-          }
         }
       ],
       "title": "Endpoints com Response Grande",
@@ -896,8 +933,10 @@
       "type": "table"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Endpoints com maior desvio padrão (instabilidade).",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -907,28 +946,25 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Endpoint" },
-            "properties": [{ "id": "custom.width", "value": 350 }]
+            "matcher": { "id": "byName", "options": "f5.url.keyword" },
+            "properties": [
+              { "id": "custom.width", "value": 350 },
+              { "id": "displayName", "value": "Endpoint" }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Média (ms)" },
+            "matcher": { "id": "byName", "options": "Average" },
             "properties": [
               { "id": "custom.width", "value": 100 },
+              { "id": "displayName", "value": "Média (ms)" },
               { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" } }
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "Desvio Padrão (ms)" },
+            "matcher": { "id": "byName", "options": "Std Deviation" },
             "properties": [
               { "id": "custom.width", "value": 150 },
-              { "id": "thresholds", "value": {
-                "mode": "absolute",
-                "steps": [
-                  { "color": "green", "value": null },
-                  { "color": "rgb(216, 123, 0)", "value": 500 },
-                  { "color": "red", "value": 2000 }
-                ]
-              }},
+              { "id": "displayName", "value": "Desvio Padrão (ms)" },
               { "id": "custom.cellOptions", "value": { "type": "color-background" } }
             ]
           }
@@ -938,10 +974,10 @@
       "id": 12,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Desvio Padrão (ms)", "desc": true }],
+        "sortBy": [{ "displayName": "Std Deviation", "desc": true }],
         "footer": { "show": false }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "",
@@ -949,40 +985,29 @@
             {
               "field": "f5.url.keyword",
               "id": "2",
-              "settings": { "size": "10", "order": "desc", "orderBy": "1" },
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "1",
+                "size": "10"
+              },
               "type": "terms"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
           "metrics": [
-            { "field": "f5.request_elapsed_ms", "id": "1", "type": "extended_stats" }
+            {
+              "field": "f5.request_elapsed_ms",
+              "id": "1",
+              "type": "extended_stats"
+            }
           ],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
           "refId": "A",
           "timeField": "@timestamp"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true,
-              "Count": true,
-              "Sum": true,
-              "Min": true,
-              "Max": true,
-              "Variance": true,
-              "Std Deviation Bounds Upper": true,
-              "Std Deviation Bounds Lower": true,
-              "Sum of Squares": true
-            },
-            "renameByName": {
-              "f5.url.keyword": "Endpoint",
-              "Average": "Média (ms)",
-              "Std Deviation": "Desvio Padrão (ms)"
-            }
-          }
         }
       ],
       "title": "Endpoints Instáveis (por Desvio Padrão)",
@@ -994,61 +1019,14 @@
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 38 },
       "id": 300,
       "panels": [],
-      "title": "🚨 Erros & Status Codes",
+      "title": "Erros por Endpoint",
       "type": "row"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Distribuição dos status codes HTTP.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "mappings": [],
-          "unit": "short",
-          "decimals": 0
-        },
-        "overrides": []
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
       },
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 39 },
-      "id": 18,
-      "options": {
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "values": ["value", "percent"]
-        },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false },
-        "tooltip": { "mode": "single" },
-        "displayLabels": ["name", "percent"]
-      },
-      "pluginVersion": "12.0.0",
-      "targets": [
-        {
-          "alias": "{{f5.status}}",
-          "bucketAggs": [
-            {
-              "field": "f5.status",
-              "id": "2",
-              "settings": { "size": "10", "order": "desc", "orderBy": "_count" },
-              "type": "terms"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
-          "refId": "A",
-          "timeField": "@timestamp"
-        }
-      ],
-      "title": "Top Status Codes",
-      "transparent": true,
-      "type": "piechart"
-    },
-    {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-      "description": "Requisições e erros por endpoint.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -1058,85 +1036,62 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Endpoint" },
-            "properties": [{ "id": "custom.width", "value": 350 }]
-          },
-          {
-            "matcher": { "id": "byName", "options": "Total Requisições" },
+            "matcher": { "id": "byName", "options": "f5.url.keyword" },
             "properties": [
-              { "id": "custom.width", "value": 140 },
-              { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" } }
+              { "id": "custom.width", "value": 400 },
+              { "id": "displayName", "value": "Endpoint" }
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "Total Erros" },
+            "matcher": { "id": "byName", "options": "Count" },
             "properties": [
-              { "id": "custom.width", "value": 100 },
+              { "id": "custom.width", "value": 140 },
+              { "id": "displayName", "value": "Total Erros" },
               { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" } }
             ]
           }
         ]
       },
-      "gridPos": { "h": 8, "w": 16, "x": 8, "y": 39 },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 39 },
       "id": 15,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Total Erros", "desc": true }],
+        "sortBy": [{ "displayName": "Count", "desc": true }],
         "footer": { "show": false }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
-          "alias": "Total",
+          "alias": "",
           "bucketAggs": [
             {
               "field": "f5.url.keyword",
               "id": "2",
-              "settings": { "size": "20", "order": "desc", "orderBy": "_count" },
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_count",
+                "size": "20"
+              },
               "type": "terms"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api* AND f5.status:>=400",
           "refId": "A",
           "timeField": "@timestamp"
-        },
-        {
-          "alias": "Erros",
-          "bucketAggs": [
-            {
-              "field": "f5.url.keyword",
-              "id": "2",
-              "settings": { "size": "20", "order": "desc", "orderBy": "_count" },
-              "type": "terms"
-            }
-          ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api* AND f5.status:>=400",
-          "refId": "B",
-          "timeField": "@timestamp"
         }
       ],
-      "transformations": [
-        {
-          "id": "seriesToColumns",
-          "options": { "byField": "f5.url.keyword" }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true },
-            "renameByName": {
-              "f5.url.keyword": "Endpoint",
-              "Count 1": "Total Requisições",
-              "Count 2": "Total Erros"
-            }
-          }
-        }
-      ],
-      "title": "Requisições e Erros por Endpoint",
+      "title": "Erros por Endpoint (status >= 400)",
       "transparent": true,
       "type": "table"
     },
@@ -1145,28 +1100,47 @@
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 47 },
       "id": 400,
       "panels": [],
-      "title": "📈 Capacidade & Uso",
+      "title": "Capacidade & Uso",
       "type": "row"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 35,
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineWidth": 1,
-            "showPoints": "never",
-            "spanNulls": true
+            "scaleDistribution": { "type": "linear" },
+            "thresholdsStyle": { "mode": "off" }
           },
           "mappings": [],
-          "unit": "short",
-          "decimals": 0
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green" },
+              { "color": "red", "value": 80 }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Requisições/hora" },
+            "matcher": { "id": "byName", "options": "Count" },
             "properties": [
               { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" } }
             ]
@@ -1176,34 +1150,68 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 48 },
       "id": 16,
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": ["sum", "mean"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
-          "alias": "Requisições/hora",
+          "alias": "",
           "bucketAggs": [
             {
               "field": "@timestamp",
               "id": "2",
-              "settings": { "interval": "1h", "min_doc_count": "0" },
+              "settings": {
+                "interval": "1h",
+                "min_doc_count": "0",
+                "timeZone": "utc",
+                "trimEdges": "0"
+              },
               "type": "date_histogram"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet)",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet",
           "refId": "A",
           "timeField": "@timestamp"
         }
       ],
       "title": "Horários de Pico (Requisições/hora)",
       "transparent": true,
-      "type": "timeseries"
+      "type": "barchart"
     },
     {
-      "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "cex2jo3696xhca"
+      },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -1213,13 +1221,17 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Endpoint" },
-            "properties": [{ "id": "custom.width", "value": 400 }]
+            "matcher": { "id": "byName", "options": "f5.url.keyword" },
+            "properties": [
+              { "id": "custom.width", "value": 400 },
+              { "id": "displayName", "value": "Endpoint" }
+            ]
           },
           {
-            "matcher": { "id": "byName", "options": "Total Requisições" },
+            "matcher": { "id": "byName", "options": "Count" },
             "properties": [
               { "id": "custom.width", "value": 140 },
+              { "id": "displayName", "value": "Total Requisições" },
               { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" } }
             ]
           }
@@ -1229,10 +1241,10 @@
       "id": 17,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Total Requisições", "desc": false }],
+        "sortBy": [{ "displayName": "Count", "desc": false }],
         "footer": { "show": false }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.0+security-01",
       "targets": [
         {
           "alias": "",
@@ -1240,27 +1252,28 @@
             {
               "field": "f5.url.keyword",
               "id": "2",
-              "settings": { "size": "10", "order": "asc", "orderBy": "_count", "min_doc_count": "1" },
+              "settings": {
+                "min_doc_count": "1",
+                "order": "asc",
+                "orderBy": "_count",
+                "size": "10"
+              },
               "type": "terms"
             }
           ],
-          "datasource": { "uid": "cex2jo3696xhca", "type": "elasticsearch" },
-          "metrics": [{ "id": "1", "type": "count" }],
-          "query": "f5.vhost:(integracao.caixavidaeprevidencia.com.br OR integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "cex2jo3696xhca"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "(f5.vhost:integracao.caixavidaeprevidencia.com.br OR f5.vhost:integracao.caixavidaeprevidencia.intranet) AND f5.url.keyword:*api*",
           "refId": "A",
           "timeField": "@timestamp"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true },
-            "renameByName": {
-              "f5.url.keyword": "Endpoint",
-              "Count": "Total Requisições"
-            }
-          }
         }
       ],
       "title": "APIs Pouco Usadas",
@@ -1268,19 +1281,19 @@
       "type": "table"
     }
   ],
-  "refresh": "30s",
+  "preload": false,
   "schemaVersion": 41,
-  "style": "dark",
   "tags": ["f5", "elasticsearch", "apis", "integracao"],
-  "templating": { "list": [] },
-  "time": { "from": "now-24h", "to": "now" },
-  "timepicker": {
-    "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h"],
-    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+  "templating": {
+    "list": []
   },
-  "timezone": "",
-  "title": "F5 — APIs Integração",
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "America/Sao_Paulo",
+  "title": "F5 - APIs Integração",
   "uid": "f5-integracao-apis",
-  "version": 1,
-  "weekStart": ""
+  "version": 1
 }
