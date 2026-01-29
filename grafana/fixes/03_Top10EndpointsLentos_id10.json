@@ -1,0 +1,63 @@
+{
+  "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+  "fieldConfig": {
+    "defaults": {
+      "color": { "mode": "palette-classic" },
+      "mappings": [],
+      "unit": "ms"
+    },
+    "overrides": []
+  },
+  "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+  "id": 10,
+  "options": {
+    "showHeader": true,
+    "sortBy": [{ "displayName": "p95", "desc": true }]
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "p95 por endpoint",
+      "bucketAggs": [
+        {
+          "field": "f5.url.keyword",
+          "id": "2",
+          "settings": { 
+            "size": "10", 
+            "order": "desc", 
+            "orderBy": "_term"
+          },
+          "type": "terms"
+        }
+      ],
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "metrics": [
+        {
+          "field": "f5.request_elapsed_ms",
+          "id": "1",
+          "settings": { "percents": ["95"] },
+          "type": "percentiles"
+        }
+      ],
+      "query": "f5.vhost.keyword:$vhost",
+      "refId": "A",
+      "timeField": "timestamp"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "sortBy",
+      "options": {
+        "fields": {},
+        "sort": [{ "field": "p95", "desc": true }]
+      }
+    },
+    {
+      "id": "limit",
+      "options": { "limitField": 10 }
+    }
+  ],
+  "title": "Top 10 endpoints mais lentos (p95)",
+  "transparent": true,
+  "type": "table"
+}

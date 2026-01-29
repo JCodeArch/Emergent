@@ -1,0 +1,56 @@
+{
+  "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+  "description": "4xx vs 5xx no período selecionado.",
+  "fieldConfig": {
+    "defaults": {
+      "color": { "mode": "palette-classic" },
+      "mappings": [],
+      "unit": "short"
+    },
+    "overrides": [
+      {
+        "matcher": { "id": "byName", "options": "4xx" },
+        "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" }}]
+      },
+      {
+        "matcher": { "id": "byName", "options": "5xx" },
+        "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" }}]
+      }
+    ]
+  },
+  "gridPos": { "h": 8, "w": 12, "x": 12, "y": 48 },
+  "id": 19,
+  "options": {
+    "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
+    "pieType": "donut",
+    "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false },
+    "tooltip": { "mode": "single" }
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "Erros por tipo",
+      "bucketAggs": [
+        {
+          "field": "f5.status",
+          "id": "2",
+          "settings": {
+            "ranges": [
+              { "from": "400", "to": "499", "label": "4xx" },
+              { "from": "500", "to": "599", "label": "5xx" }
+            ]
+          },
+          "type": "range"
+        }
+      ],
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "metrics": [ { "id": "1", "type": "count" } ],
+      "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:>=400",
+      "refId": "A",
+      "timeField": "timestamp"
+    }
+  ],
+  "title": "4xx vs 5xx (count)",
+  "transparent": true,
+  "type": "piechart"
+}

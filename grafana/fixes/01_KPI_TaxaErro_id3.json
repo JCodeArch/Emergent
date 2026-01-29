@@ -1,0 +1,76 @@
+{
+  "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+  "description": "Taxa de erro = (status >= 400) / total.",
+  "fieldConfig": {
+    "defaults": {
+      "color": { "mode": "thresholds" },
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          { "color": "green", "value": null },
+          { "color": "orange", "value": 1 },
+          { "color": "red", "value": 5 }
+        ]
+      },
+      "unit": "percent"
+    },
+    "overrides": []
+  },
+  "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
+  "id": 3,
+  "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "orientation": "horizontal",
+    "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+    "textMode": "value_and_name"
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "Total",
+      "bucketAggs": [
+        {
+          "field": "timestamp",
+          "id": "2",
+          "settings": { "interval": "auto", "min_doc_count": "0" },
+          "type": "date_histogram"
+        }
+      ],
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "metrics": [ { "id": "1", "type": "count" } ],
+      "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint",
+      "refId": "A",
+      "timeField": "timestamp",
+      "hide": true
+    },
+    {
+      "alias": "Erros",
+      "bucketAggs": [
+        {
+          "field": "timestamp",
+          "id": "2",
+          "settings": { "interval": "auto", "min_doc_count": "0" },
+          "type": "date_histogram"
+        }
+      ],
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "metrics": [ { "id": "1", "type": "count" } ],
+      "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:>=400",
+      "refId": "B",
+      "timeField": "timestamp",
+      "hide": true
+    },
+    {
+      "datasource": { "type": "__expr__", "uid": "__expr__" },
+      "expression": "($B / $A) * 100",
+      "refId": "C",
+      "type": "math"
+    }
+  ],
+  "title": "Taxa de Erro (%)",
+  "transparent": true,
+  "type": "stat"
+}

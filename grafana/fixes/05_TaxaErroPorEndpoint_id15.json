@@ -1,0 +1,140 @@
+{
+  "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+  "description": "Tabela consolidada por endpoint: Total, Erros e %Erro.",
+  "fieldConfig": {
+    "defaults": { 
+      "color": { "mode": "palette-classic" }, 
+      "mappings": [], 
+      "unit": "short" 
+    },
+    "overrides": [
+      {
+        "matcher": { "id": "byName", "options": "%Erro" },
+        "properties": [
+          { "id": "unit", "value": "percent" },
+          { "id": "decimals", "value": 2 },
+          { "id": "thresholds", "value": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 1 },
+              { "color": "red", "value": 5 }
+            ]
+          }},
+          { "id": "custom.cellOptions", "value": { "type": "color-background" }}
+        ]
+      }
+    ]
+  },
+  "gridPos": { "h": 8, "w": 12, "x": 12, "y": 39 },
+  "id": 15,
+  "options": { 
+    "showHeader": true,
+    "sortBy": [{ "displayName": "%Erro", "desc": true }]
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "Total",
+      "bucketAggs": [
+        { 
+          "field": "f5.url.keyword", 
+          "id": "2", 
+          "settings": { "size": "20", "order": "desc", "orderBy": "_count" }, 
+          "type": "terms" 
+        }
+      ],
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "metrics": [ { "id": "1", "type": "count" } ],
+      "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint",
+      "refId": "A",
+      "timeField": "timestamp"
+    },
+    {
+      "alias": "Erros",
+      "bucketAggs": [
+        { 
+          "field": "f5.url.keyword", 
+          "id": "2", 
+          "settings": { "size": "20", "order": "desc", "orderBy": "_count" }, 
+          "type": "terms" 
+        }
+      ],
+      "datasource": { "type": "elasticsearch", "uid": "$DS_ELASTIC" },
+      "metrics": [ { "id": "1", "type": "count" } ],
+      "query": "f5.vhost.keyword:$vhost AND f5.url.keyword:$endpoint AND f5.status:>=400",
+      "refId": "B",
+      "timeField": "timestamp"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "joinByField",
+      "options": { 
+        "byField": "f5.url.keyword",
+        "mode": "outer"
+      }
+    },
+    {
+      "id": "organize",
+      "options": {
+        "excludeByName": {},
+        "renameByName": {
+          "f5.url.keyword": "Endpoint",
+          "Count 1": "Total",
+          "Count 2": "Erros"
+        },
+        "indexByName": {}
+      }
+    },
+    {
+      "id": "calculateField",
+      "options": {
+        "mode": "binary",
+        "binary": {
+          "left": "Erros",
+          "right": "Total",
+          "operator": "/"
+        },
+        "alias": "%Erro_raw",
+        "replaceFields": false
+      }
+    },
+    {
+      "id": "calculateField",
+      "options": {
+        "mode": "binary",
+        "binary": {
+          "left": "%Erro_raw",
+          "right": "100",
+          "operator": "*"
+        },
+        "alias": "%Erro",
+        "replaceFields": false
+      }
+    },
+    {
+      "id": "organize",
+      "options": {
+        "excludeByName": { "%Erro_raw": true },
+        "renameByName": {},
+        "indexByName": {
+          "Endpoint": 0,
+          "Total": 1,
+          "Erros": 2,
+          "%Erro": 3
+        }
+      }
+    },
+    {
+      "id": "sortBy",
+      "options": {
+        "fields": {},
+        "sort": [{ "field": "%Erro", "desc": true }]
+      }
+    }
+  ],
+  "title": "Taxa de erro por endpoint (Total / Erros / %Erro)",
+  "transparent": true,
+  "type": "table"
+}
