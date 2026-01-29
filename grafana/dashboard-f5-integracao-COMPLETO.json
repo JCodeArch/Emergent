@@ -76,7 +76,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Total Requisições",
@@ -114,7 +114,7 @@
           "alias": "Throughput",
           "bucketAggs": [
             {
-              "field": "timestamp",
+              "field": "@timestamp",
               "id": "2",
               "settings": { "interval": "1s", "min_doc_count": "0" },
               "type": "date_histogram"
@@ -129,7 +129,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Throughput (req/s)",
@@ -188,7 +188,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Latência p95 (ms)",
@@ -240,9 +240,9 @@
           "metrics": [
             { "id": "1", "type": "count" }
           ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[400 TO 599]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:>=400",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Total Erros",
@@ -297,7 +297,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
@@ -308,9 +308,9 @@
             "type": "elasticsearch"
           },
           "metrics": [ { "id": "1", "type": "count" } ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[0 TO 399]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:<400",
           "refId": "B",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
@@ -372,7 +372,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
@@ -383,9 +383,9 @@
             "type": "elasticsearch"
           },
           "metrics": [ { "id": "1", "type": "count" } ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[400 TO 599]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:>=400",
           "refId": "B",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
@@ -447,7 +447,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
@@ -458,9 +458,9 @@
             "type": "elasticsearch"
           },
           "metrics": [ { "id": "1", "type": "count" } ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.request_elapsed_ms:[0 TO 2000]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.request_elapsed_ms:<=2000",
           "refId": "B",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
@@ -531,9 +531,9 @@
           "metrics": [
             { "id": "1", "type": "count" }
           ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[400 TO 499]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:>=400 AND f5.status:<500",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         },
         {
           "alias": "Erros 5xx (Servidor)",
@@ -545,9 +545,9 @@
           "metrics": [
             { "id": "1", "type": "count" }
           ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[500 TO 599]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:>=500",
           "refId": "B",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Erros 4xx vs 5xx",
@@ -607,7 +607,7 @@
           "alias": "Requisições/min",
           "bucketAggs": [
             {
-              "field": "timestamp",
+              "field": "@timestamp",
               "id": "2",
               "settings": { "interval": "1m", "min_doc_count": "0" },
               "type": "date_histogram"
@@ -620,7 +620,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Volumetria (Requisições/min)",
@@ -681,7 +681,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
@@ -750,7 +750,7 @@
           "alias": "Latência p95 (ms)",
           "bucketAggs": [
             {
-              "field": "timestamp",
+              "field": "@timestamp",
               "id": "2",
               "settings": { "interval": "5m", "min_doc_count": "0" },
               "type": "date_histogram"
@@ -770,7 +770,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Latência p95 (Tendência)",
@@ -854,7 +854,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
@@ -936,7 +936,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
@@ -1060,7 +1060,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
@@ -1162,7 +1162,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
@@ -1232,7 +1232,7 @@
           "alias": "Total",
           "bucketAggs": [
             {
-              "field": "timestamp",
+              "field": "@timestamp",
               "id": "2",
               "settings": { "interval": "5m", "min_doc_count": "0" },
               "type": "date_histogram"
@@ -1245,14 +1245,14 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
           "alias": "Erros",
           "bucketAggs": [
             {
-              "field": "timestamp",
+              "field": "@timestamp",
               "id": "2",
               "settings": { "interval": "5m", "min_doc_count": "0" },
               "type": "date_histogram"
@@ -1263,9 +1263,9 @@
             "type": "elasticsearch"
           },
           "metrics": [ { "id": "1", "type": "count" } ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[400 TO 599]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:>=400",
           "refId": "B",
-          "timeField": "timestamp",
+          "timeField": "@timestamp",
           "hide": true
         },
         {
@@ -1374,7 +1374,7 @@
           ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         },
         {
           "alias": "Total Erros",
@@ -1398,9 +1398,9 @@
           "metrics": [
             { "id": "1", "type": "count" }
           ],
-          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[400 TO 599]",
+          "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:>=400",
           "refId": "B",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
@@ -1521,7 +1521,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
@@ -1589,7 +1589,7 @@
           "alias": "Requisições/hora",
           "bucketAggs": [
             { 
-              "field": "timestamp", 
+              "field": "@timestamp", 
               "id": "2", 
               "settings": { "interval": "1h", "min_doc_count": "0" }, 
               "type": "date_histogram" 
@@ -1602,7 +1602,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "title": "Horários de Pico (Requisições/hora)",
@@ -1668,7 +1668,7 @@
           "metrics": [ { "id": "1", "type": "count" } ],
           "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
           "refId": "A",
-          "timeField": "timestamp"
+          "timeField": "@timestamp"
         }
       ],
       "transformations": [
