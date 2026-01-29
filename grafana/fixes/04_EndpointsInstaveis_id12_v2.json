@@ -1,0 +1,156 @@
+{
+  "datasource": {
+    "uid": "cex2jo3696xhca",
+    "type": "elasticsearch"
+  },
+  "description": "Endpoints com maior variação de latência (instabilidade medida pelo desvio padrão).",
+  "fieldConfig": {
+    "defaults": { 
+      "color": { "mode": "palette-classic" }, 
+      "mappings": [], 
+      "unit": "short",
+      "decimals": 0
+    },
+    "overrides": [
+      {
+        "matcher": { "id": "byName", "options": "Endpoint" },
+        "properties": [
+          { "id": "custom.width", "value": 350 }
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "Média (ms)" },
+        "properties": [
+          { "id": "unit", "value": "ms" },
+          { "id": "decimals", "value": 0 },
+          { "id": "custom.width", "value": 100 },
+          { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" }}
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "Mínimo (ms)" },
+        "properties": [
+          { "id": "unit", "value": "ms" },
+          { "id": "decimals", "value": 0 },
+          { "id": "custom.width", "value": 100 },
+          { "id": "color", "value": { "fixedColor": "green", "mode": "fixed" }}
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "Máximo (ms)" },
+        "properties": [
+          { "id": "unit", "value": "ms" },
+          { "id": "decimals", "value": 0 },
+          { "id": "custom.width", "value": 100 },
+          { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" }}
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "Desvio Padrão (ms)" },
+        "properties": [
+          { "id": "unit", "value": "ms" },
+          { "id": "decimals", "value": 0 },
+          { "id": "custom.width", "value": 140 },
+          { "id": "thresholds", "value": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "rgb(216, 123, 0)", "value": 500 },
+              { "color": "red", "value": 2000 }
+            ]
+          }},
+          { "id": "custom.cellOptions", "value": { "type": "color-background" }}
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "Total Requisições" },
+        "properties": [
+          { "id": "decimals", "value": 0 },
+          { "id": "custom.width", "value": 130 }
+        ]
+      }
+    ]
+  },
+  "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
+  "id": 12,
+  "options": { 
+    "showHeader": true,
+    "sortBy": [{ "displayName": "Desvio Padrão (ms)", "desc": true }],
+    "footer": {
+      "show": false
+    }
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "",
+      "bucketAggs": [
+        {
+          "field": "f5.url.keyword",
+          "id": "2",
+          "settings": { 
+            "size": "10", 
+            "order": "desc", 
+            "orderBy": "5"
+          },
+          "type": "terms"
+        }
+      ],
+      "datasource": {
+        "uid": "cex2jo3696xhca",
+        "type": "elasticsearch"
+      },
+      "metrics": [
+        { "field": "f5.request_elapsed_ms", "id": "1", "type": "count" },
+        { "field": "f5.request_elapsed_ms", "id": "2", "type": "avg" },
+        { "field": "f5.request_elapsed_ms", "id": "3", "type": "min" },
+        { "field": "f5.request_elapsed_ms", "id": "4", "type": "max" },
+        { 
+          "field": "f5.request_elapsed_ms", 
+          "id": "5", 
+          "type": "extended_stats",
+          "meta": {}
+        }
+      ],
+      "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
+      "refId": "A",
+      "timeField": "timestamp"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "organize",
+      "options": {
+        "excludeByName": {
+          "Time": true,
+          "Count": true,
+          "Sum": true,
+          "Variance": true,
+          "Std Deviation Bounds Upper": true,
+          "Std Deviation Bounds Lower": true,
+          "Sum of Squares": true
+        },
+        "indexByName": {},
+        "renameByName": {
+          "f5.url.keyword": "Endpoint",
+          "Average": "Média (ms)",
+          "Min": "Mínimo (ms)",
+          "Max": "Máximo (ms)",
+          "Std Deviation": "Desvio Padrão (ms)"
+        }
+      }
+    },
+    {
+      "id": "sortBy",
+      "options": {
+        "fields": {},
+        "sort": [
+          { "field": "Desvio Padrão (ms)", "desc": true }
+        ]
+      }
+    }
+  ],
+  "title": "Endpoints Instáveis (por Desvio Padrão)",
+  "transparent": true,
+  "type": "table"
+}

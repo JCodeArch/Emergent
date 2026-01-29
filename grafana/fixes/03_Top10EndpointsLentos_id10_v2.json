@@ -1,0 +1,110 @@
+{
+  "datasource": {
+    "uid": "cex2jo3696xhca",
+    "type": "elasticsearch"
+  },
+  "description": "Top 10 endpoints com maior latência (percentil 95).",
+  "fieldConfig": {
+    "defaults": {
+      "color": { "mode": "palette-classic" },
+      "mappings": [],
+      "unit": "ms",
+      "decimals": 0
+    },
+    "overrides": [
+      {
+        "matcher": { "id": "byName", "options": "Endpoint" },
+        "properties": [
+          { "id": "custom.width", "value": 400 }
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "Latência p95 (ms)" },
+        "properties": [
+          { "id": "unit", "value": "ms" },
+          { "id": "decimals", "value": 0 },
+          { "id": "custom.width", "value": 150 },
+          { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" }},
+          { "id": "thresholds", "value": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "rgb(216, 123, 0)", "value": 2000 },
+              { "color": "red", "value": 5000 }
+            ]
+          }},
+          { "id": "custom.cellOptions", "value": { "type": "color-background" }}
+        ]
+      }
+    ]
+  },
+  "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+  "id": 10,
+  "options": {
+    "showHeader": true,
+    "sortBy": [{ "displayName": "Latência p95 (ms)", "desc": true }],
+    "footer": {
+      "show": false
+    }
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "",
+      "bucketAggs": [
+        {
+          "field": "f5.url.keyword",
+          "id": "2",
+          "settings": { 
+            "size": "10", 
+            "order": "desc", 
+            "orderBy": "1"
+          },
+          "type": "terms"
+        }
+      ],
+      "datasource": {
+        "uid": "cex2jo3696xhca",
+        "type": "elasticsearch"
+      },
+      "metrics": [
+        {
+          "field": "f5.request_elapsed_ms",
+          "id": "1",
+          "settings": { "percents": ["95"] },
+          "type": "percentiles"
+        }
+      ],
+      "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/",
+      "refId": "A",
+      "timeField": "timestamp"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "organize",
+      "options": {
+        "excludeByName": {
+          "Time": true
+        },
+        "indexByName": {},
+        "renameByName": {
+          "f5.url.keyword": "Endpoint",
+          "p95": "Latência p95 (ms)"
+        }
+      }
+    },
+    {
+      "id": "sortBy",
+      "options": {
+        "fields": {},
+        "sort": [
+          { "field": "Latência p95 (ms)", "desc": true }
+        ]
+      }
+    }
+  ],
+  "title": "Top 10 Endpoints Mais Lentos",
+  "transparent": true,
+  "type": "table"
+}
