@@ -1,0 +1,87 @@
+{
+  "datasource": {
+    "uid": "cex2jo3696xhca",
+    "type": "elasticsearch"
+  },
+  "description": "Faixas de SLA baseadas na latência: até 2s (dentro do SLA) vs acima de 2s (fora do SLA).",
+  "fieldConfig": {
+    "defaults": {
+      "color": { "mode": "palette-classic" },
+      "mappings": [],
+      "unit": "short",
+      "decimals": 0
+    },
+    "overrides": [
+      {
+        "matcher": { "id": "byName", "options": "Dentro do SLA (≤2s)" },
+        "properties": [
+          { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" }}
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "Fora do SLA (>2s)" },
+        "properties": [
+          { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" }}
+        ]
+      }
+    ]
+  },
+  "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
+  "id": 6,
+  "options": {
+    "legend": { 
+      "displayMode": "table", 
+      "placement": "right", 
+      "showLegend": true,
+      "values": ["value", "percent"]
+    },
+    "pieType": "donut",
+    "reduceOptions": { 
+      "calcs": ["sum"], 
+      "fields": "", 
+      "values": false 
+    },
+    "tooltip": { "mode": "single" },
+    "displayLabels": ["name", "percent"]
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "Dentro do SLA (≤2s)",
+      "bucketAggs": [],
+      "datasource": {
+        "uid": "cex2jo3696xhca",
+        "type": "elasticsearch"
+      },
+      "metrics": [
+        { 
+          "id": "1", 
+          "type": "count"
+        }
+      ],
+      "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.request_elapsed_ms:[0 TO 2000]",
+      "refId": "A",
+      "timeField": "timestamp"
+    },
+    {
+      "alias": "Fora do SLA (>2s)",
+      "bucketAggs": [],
+      "datasource": {
+        "uid": "cex2jo3696xhca",
+        "type": "elasticsearch"
+      },
+      "metrics": [
+        { 
+          "id": "1", 
+          "type": "count"
+        }
+      ],
+      "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.request_elapsed_ms:>2000",
+      "refId": "B",
+      "timeField": "timestamp"
+    }
+  ],
+  "title": "SLA (até 2s vs >2s)",
+  "transparent": true,
+  "type": "piechart"
+}

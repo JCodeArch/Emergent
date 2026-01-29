@@ -1,0 +1,89 @@
+{
+  "datasource": {
+    "uid": "cex2jo3696xhca",
+    "type": "elasticsearch"
+  },
+  "description": "4xx vs 5xx no período selecionado.",
+  "fieldConfig": {
+    "defaults": {
+      "color": { "mode": "palette-classic" },
+      "mappings": [],
+      "unit": "short",
+      "decimals": 0
+    },
+    "overrides": [
+      {
+        "matcher": { "id": "byName", "options": "4xx" },
+        "properties": [
+          { "id": "displayName", "value": "Erros 4xx (Cliente)" },
+          { "id": "color", "value": { "fixedColor": "rgb(216, 123, 0)", "mode": "fixed" }}
+        ]
+      },
+      {
+        "matcher": { "id": "byName", "options": "5xx" },
+        "properties": [
+          { "id": "displayName", "value": "Erros 5xx (Servidor)" },
+          { "id": "color", "value": { "fixedColor": "rgb(45, 138, 216)", "mode": "fixed" }}
+        ]
+      }
+    ]
+  },
+  "gridPos": { "h": 8, "w": 12, "x": 12, "y": 48 },
+  "id": 19,
+  "options": {
+    "legend": { 
+      "displayMode": "table", 
+      "placement": "right", 
+      "showLegend": true,
+      "values": ["value", "percent"]
+    },
+    "pieType": "donut",
+    "reduceOptions": { 
+      "calcs": ["sum"], 
+      "fields": "", 
+      "values": false 
+    },
+    "tooltip": { "mode": "single" },
+    "displayLabels": ["name", "percent"]
+  },
+  "pluginVersion": "12.0.0",
+  "targets": [
+    {
+      "alias": "4xx",
+      "bucketAggs": [],
+      "datasource": {
+        "uid": "cex2jo3696xhca",
+        "type": "elasticsearch"
+      },
+      "metrics": [
+        { 
+          "id": "1", 
+          "type": "count"
+        }
+      ],
+      "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[400 TO 499]",
+      "refId": "A",
+      "timeField": "timestamp"
+    },
+    {
+      "alias": "5xx",
+      "bucketAggs": [],
+      "datasource": {
+        "uid": "cex2jo3696xhca",
+        "type": "elasticsearch"
+      },
+      "metrics": [
+        { 
+          "id": "1", 
+          "type": "count"
+        }
+      ],
+      "query": "(f5.vhost.keyword:\"integracao.caixavidaeprevidencia.com.br\" OR f5.vhost.keyword:\"integracao.caixavidaeprevidencia.intranet\") AND f5.url.keyword:/\\/api\\/*/ AND f5.status:[500 TO 599]",
+      "refId": "B",
+      "timeField": "timestamp"
+    }
+  ],
+  "title": "Erros 4xx vs 5xx",
+  "transparent": true,
+  "type": "piechart"
+}
